@@ -4,7 +4,7 @@ var io = require('socket.io')(app);
 var fs = require('fs');
 const {make_request} = require("./request.js");
 const { ValidateFile } = require('./services/support.js');
-app.listen(3000);
+// app.listen(3000);
 
 function handler (req, res) {
   fs.readFile(__dirname + '/index.html',
@@ -19,24 +19,24 @@ function handler (req, res) {
   });
 }
 //on production
-var fs = require('fs');
-var https = require('https');
+// var fs = require('fs');
+// var https = require('https');
 
-var express = require('express');
-var app = express();
+// var express = require('express');
+// var app = express();
 
-var options = {
-  key  : fs.readFileSync('/etc/httpd/ssl/_.cloudpbx.vn.key', 'utf8'),
-   cert : fs.readFileSync('/etc/httpd/ssl/_.cloudpbx.vn.crt', 'utf8')
-};
-var serverPort = 8184;
+// var options = {
+//   key  : fs.readFileSync('/etc/httpd/ssl/_.cloudpbx.vn.key', 'utf8'),
+//    cert : fs.readFileSync('/etc/httpd/ssl/_.cloudpbx.vn.crt', 'utf8')
+// };
+var serverPort = 3000;
 
-var server = https.createServer(options, app);
-var io = require('socket.io')(server);
+// var server = https.createServer(options, app);
+// var io = require('socket.io')(server);
 
 ///---------------------------------------------------------------------
 io.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
+    console.log('connection');
   socket.on('sendFile', function (data) {
     //   console.log(data.my_file);
     var data_result = [];
@@ -73,4 +73,7 @@ io.on('connection', function (socket) {
     // socket.emit('receiveFile',{data: data_result});
 
   });
+});
+app.listen(serverPort, function() {
+  console.log('server up and running at %s port', serverPort);
 });
